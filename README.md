@@ -13,6 +13,16 @@
 3. Run `pipenv shell` to activate the virtual environment
 4. Run `python manage.py runserver` to start the server
 
-```
+# Create MYSQL Database
 
+Database name: story
+USER: root
+PASSWORD: root
+PORT': 3360
+
+Make migrations and migrate the database
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
 ```
