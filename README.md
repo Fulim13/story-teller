@@ -1,28 +1,159 @@
-# How to Run the Project
+# Story Teller
 
-# Run Frontend
+A full-stack application for creating and managing interactive stories with AI-powered image generation.
 
-1. Go to the frontend directory
-2. Run `npm install` to install the dependencies
-3. Run `npm run dev` to start the server
+## Features
 
-# Run Backend
+- User authentication (Register/Login)
+- Story creation and management
+- AI-generated story illustrations
+- Chapter-based story development
+- Character profile generation
+- Interactive story outlining
 
-1. Go to the backend directory
-2. Run `pipenv install` to install the dependencies
-3. Run `pipenv shell` to activate the virtual environment
-4. Run `python manage.py runserver` to start the server
+## Tech Stack
 
-# Create MYSQL Database
+**Frontend:**
 
-Database name: story
-USER: root
-PASSWORD: root
-PORT': 3360
+- React.js + Vite
+- Tailwind CSS
+- Axios (API calls)
 
-Make migrations and migrate the database
+**Backend:**
+
+- Django REST Framework
+- Python
+- MySQL Database
+
+**AI Services:**
+
+- OpenAI API
+- DALL-E Image Generation (OpenAI)
+
+## Prerequisites
+
+- Node.js (v18+)
+- Python (3.9+)
+- MySQL Server (8.0+)
+- Pipenv
+- Git
+
+## Installation
+
+### 1. Clone Repository
 
 ```bash
+git clone https://github.com/yourusername/story-crafting-platform.git
+cd story-crafting-platform
+```
+
+### 2. Frontend Setup
+
+```bash
+cd frontend
+npm install
+```
+
+### 3. Backend Setup
+
+```bash
+cd ../backend
+pipenv install
+```
+
+## Database Configuration
+
+1. Create MySQL Database:
+
+```sql
+CREATE DATABASE story;
+CREATE USER 'root'@'localhost' IDENTIFIED BY 'root';
+GRANT ALL PRIVILEGES ON story.* TO 'root'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+2. Update Django Settings:
+
+```python
+# backend/settings.py
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'story',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+```
+
+3. Run Migrations:
+
+```bash
+pipenv shell
 python manage.py makemigrations
 python manage.py migrate
 ```
+
+## Running the Application
+
+### Start Frontend Server
+
+```bash
+cd frontend
+npm run dev
+```
+
+### Start Backend Server
+
+```bash
+cd ../backend
+pipenv shell
+python manage.py runserver
+```
+
+Access the application at `http://localhost:5173` (frontend) and `http://localhost:8000` (backend)
+
+## Environment Variables
+
+Create `.env` files for backend with necessary secrets:
+
+**backend/core/.env**
+
+```env
+OPENAI_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
+LANGCHAIN_TRACING_V2=true
+LANGCHAIN_ENDPOINT="https://api.smith.langchain.com"
+LANGCHAIN_API_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+LANGCHAIN_PROJECT="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+```
+
+## Project Demo Walkthrough
+
+1. **Register a new user**
+   ![Register](img/image_1.png)
+2. **Login with the registered user**
+   ![Login](img/image_2.png)
+3. **Navigate to home page**
+   ![Home](img/image_3.png)
+4. **Create a new story**
+   ![Create Story](img/image_4.png)
+5. **View the created story**
+   ![View Story](img/image_5.png)
+6. **Generate Image for the story**
+   ![Generate Image](img/image_6.png)
+7. **Image generated**
+   ![Image Generated](img/image_7.png)
+8. **View the story details**
+   ![Story Details](img/image_8.png)
+9. **Create story chapter**
+   ![Answer Interview Question](img/image_9.png)
+   ![Generate Story Outline](img/image_10.png)
+   ![Generate Character](img/image_11.png)
+   ![Character Generated](img/image_12.png)
+   ![Generate Story Chapter](img/image_13.png)
+10. **View the story chapter**
+    ![Story Chapter 1](img/image_14.png)
+    ![Story Chapter 2](img/image_15.png)
+    ![Story Chapter 3](img/image_16.png)
