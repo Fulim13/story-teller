@@ -132,28 +132,54 @@ LANGCHAIN_PROJECT="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 ## Project Demo Walkthrough
 
 1. **Register a new user**
+
    ![Register](img/image_1.png)
+
 2. **Login with the registered user**
+
    ![Login](img/image_2.png)
+
 3. **Navigate to home page**
+
    ![Home](img/image_3.png)
+
 4. **Create a new story**
+
    ![Create Story](img/image_4.png)
+
 5. **View the created story**
+
    ![View Story](img/image_5.png)
+
 6. **Generate Image for the story**
+
    ![Generate Image](img/image_6.png)
+
 7. **Image generated**
+
    ![Image Generated](img/image_7.png)
+
 8. **View the story details**
+
    ![Story Details](img/image_8.png)
+
 9. **Create story chapter**
+
    ![Answer Interview Question](img/image_9.png)
+
    ![Generate Story Outline](img/image_10.png)
+
    ![Generate Character](img/image_11.png)
+
    ![Character Generated](img/image_12.png)
+
    ![Generate Story Chapter](img/image_13.png)
+
 10. **View the story chapter**
+
     ![Story Chapter 1](img/image_14.png)
+
     ![Story Chapter 2](img/image_15.png)
+
     ![Story Chapter 3](img/image_16.png)
+
