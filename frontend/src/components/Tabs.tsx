@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { ImageOff, Image, Loader, Edit3 } from "lucide-react";
+import Markdown from "markdown-to-jsx";
 
 interface Chapter {
   id: number;
@@ -18,7 +19,22 @@ interface Character {
   appearance: string;
 }
 
+const options = {
+  overrides: {
+    h1: {
+      component: (props) => (
+        <h1 style={{ fontSize: "1.0rem", display: "none" }} {...props} />
+      ),
+    },
+    h2: {
+      component: (props) => <h2 style={{ fontSize: "1.0rem" }} {...props} />,
+    },
+  },
+};
+
 interface TabsProps {
+  activeTab: "Chapter" | "Character";
+  setActiveTab: (tab: "Chapter" | "Character") => void;
   chapters: Chapter[];
   characters: Character[];
   updateCharacterImage: (updatedCharacter: Character) => void;
@@ -29,6 +45,8 @@ interface TabsProps {
 }
 
 const Tabs: React.FC<TabsProps> = ({
+  activeTab,
+  setActiveTab,
   chapters,
   characters,
   updateCharacterImage,
@@ -37,9 +55,6 @@ const Tabs: React.FC<TabsProps> = ({
   updateCharacterDetails,
   removeCharacter,
 }) => {
-  const [activeTab, setActiveTab] = useState<"Chapter" | "Character">(
-    "Chapter"
-  );
   const [generatingImageId, setGeneratingImageId] = useState<number | null>(
     null
   );
@@ -233,7 +248,7 @@ const Tabs: React.FC<TabsProps> = ({
       </div>
 
       {/* Tab Content */}
-      <div className="flex-1 p-2 pt-4">
+      <div className="flex-1 p-2 pt-4 h-screen">
         {activeTab === "Chapter" && (
           <div>
             {chapters.map((chapter, index) => (
@@ -277,12 +292,12 @@ const Tabs: React.FC<TabsProps> = ({
                   </div>
                 ) : (
                   <p className="text-sm text-gray-700 mb-4">
-                    {chapter.content}
+                    <Markdown options={options}>{chapter.content}</Markdown>
                   </p>
                 )}
 
                 {/* Characters Involved */}
-                <div>
+                {/* <div>
                   <p className="font-semibold text-gray-800">
                     Characters Involved:
                   </p>
@@ -296,7 +311,7 @@ const Tabs: React.FC<TabsProps> = ({
                       </li>
                     ))}
                   </ul>
-                </div>
+                </div> */}
 
                 {/* Delete Button for the Last Chapter */}
                 {index === chapters.length - 1 && (

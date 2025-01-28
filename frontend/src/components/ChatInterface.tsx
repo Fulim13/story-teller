@@ -8,7 +8,17 @@ interface Message {
   timestamp: Date;
 }
 
-const ChatInterface = () => {
+interface ChatInterfaceProps {
+  setActiveTab: (tab: "Chapter" | "Character") => void;
+  setCharacter: () => void;
+  setStory: () => void;
+}
+
+const ChatInterface = ({
+  setActiveTab,
+  setCharacter,
+  setStory,
+}: ChatInterfaceProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [temperature, setTemperature] = useState(0.7);
@@ -20,12 +30,10 @@ const ChatInterface = () => {
   // State for backend steps
   const [step, setStep] = useState(1);
   const [topic, setTopic] = useState("");
-  const [genre, setGenre] = useState("Adventure");
   const [interviewQuestions, setInterviewQuestions] = useState<string[]>([]);
   const [outlineResult, setOutlineResult] = useState("");
   const [characterResult, setCharacterResult] = useState("");
   const [stories, setStories] = useState<string[]>([]);
-  const [answers, setAnswers] = useState<string>("");
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -58,9 +66,6 @@ const ChatInterface = () => {
 
     try {
       const storyId = window.location.pathname.split("/").pop();
-      //   if (step === 3) {
-      //     setAnswers(inputMessage);
-      //   }
 
       const response = await axios.post(
         "http://127.0.0.1:8000/chat/",
@@ -68,7 +73,6 @@ const ChatInterface = () => {
           step,
           message: inputMessage,
           topic,
-          genre,
           interview_questions: interviewQuestions,
           outline_result: outlineResult,
           character_result: characterResult,
@@ -116,6 +120,7 @@ const ChatInterface = () => {
         ]);
         setInterviewQuestions(data.interview_questions || []);
       } else if (data.step === 4) {
+        setActiveTab("Character");
         console.log(data.character_result);
         setCharacterResult(data.character_result || "");
         setCharacterResult(data.character_result || "");
@@ -141,7 +146,9 @@ const ChatInterface = () => {
             timestamp: new Date(),
           },
         ]);
+        setCharacter();
       } else if (data.step === 5) {
+        setActiveTab("Chapter");
         setStories(data.stories || []);
         setMessages((prev) => [
           ...prev,
@@ -152,6 +159,8 @@ const ChatInterface = () => {
           },
         ]);
       }
+
+      setStory();
 
       // Update the step
       setStep(data.step);
@@ -170,7 +179,7 @@ const ChatInterface = () => {
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-screen">
       {/* Header with controls */}
       <div className="flex-shrink-0 flex items-center gap-4 p-4 bg-white shadow-sm">
         <div className="flex items-center gap-2">

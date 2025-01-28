@@ -58,7 +58,7 @@ class Chapter(models.Model):
     content = models.TextField()
     story = models.ForeignKey(
         Story, on_delete=models.CASCADE, related_name='chapters')
-    characters = models.ManyToManyField("Character", related_name='chapters')
+    # characters = models.ManyToManyField("Character", related_name='chapters')
     position = models.PositiveIntegerField()
 
     class Meta:
@@ -68,10 +68,10 @@ class Chapter(models.Model):
     def __str__(self):
         return f"{self.story.title} - {self.title}"
 
-    def delete(self, *args, **kwargs):
-        # Remove character associations from the chapter
-        self.characters.clear()
-        super().delete(*args, **kwargs)
+    # def delete(self, *args, **kwargs):
+    #     # Remove character associations from the chapter
+    #     self.characters.clear()
+    #     super().delete(*args, **kwargs)
 
 
 class Character(models.Model):
@@ -86,9 +86,9 @@ class Character(models.Model):
     def __str__(self):
         return self.name
 
-    def delete(self, *args, **kwargs):
-        # Check if the character is associated with any chapters
-        if self.chapters.exists():
-            raise ValidationError(
-                "Cannot delete character. It is still associated with chapters.")
-        super().delete(*args, **kwargs)
+    # def delete(self, *args, **kwargs):
+    #     # Check if the character is associated with any chapters
+    #     if self.chapters.exists():
+    #         raise ValidationError(
+    #             "Cannot delete character. It is still associated with chapters.")
+    #     super().delete(*args, **kwargs)

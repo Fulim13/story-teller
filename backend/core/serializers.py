@@ -21,12 +21,12 @@ class CharacterSerializer(serializers.ModelSerializer):
 
 
 class ChapterSerializer(serializers.ModelSerializer):
-    characters = CharacterSerializer(many=True)
+    # characters = CharacterSerializer(many=True)
 
     class Meta:
         model = Chapter
         fields = ['id', 'title', 'content',
-                  'position', 'characters']
+                  'position']
 
 
 class ComplexCharacterSerializer(serializers.ModelSerializer):

@@ -156,10 +156,8 @@ class ChapterStoryView(APIView):
         except Story.DoesNotExist:
             return Response({'error': 'Story not found'}, status=404)
 
-        # Prefetch related characters for chapters
-        chapters = story.chapters.prefetch_related(
-            'characters').all()  # Prefetch characters
-        # Use the ChapterSerializer to include characters
+        chapters = story.chapters.all()
+        # Use the ChapterSerializer
         serializer = ChapterSerializer(chapters, many=True)
         print(serializer.data)
         return Response(serializer.data)
@@ -397,12 +395,16 @@ class StoryGenerationView(APIView):
 
     def post(self, request):
         step = int(request.data.get('step', 1))
-        genre = request.data.get('genre', 'Adventure')
         input_message = request.data.get('message')
         topic = request.data.get('topic', '')
         interview_questions = request.data.get('interview_questions', [])
         outline_result = request.data.get('outline_result', '')
         character_result = request.data.get('character_result', '')
+        story_id = request.data.get('storyId', None)
+        # find the story
+        story = Story.objects.get(id=story_id)
+        # get the genre of the story
+        genre = story.genre
         print(f"Step: {step}")
         print(f"Genre: {genre}")
         print(f"Input Message: {input_message}")
@@ -454,27 +456,24 @@ class StoryGenerationView(APIView):
             )
             character_result = character_generator.generate_character()
             print(type(character_result))
-            # write the character to the database
-            stories = Story.objects.filter(author=request.user)
+            # find the story
+            story = Story.objects.get(id=story_id)
 
-            # Process each story
-            for story_instance in stories:
-                # Create and save characters associated with each story
-                for character in character_result.characters:
-                    character_info = {
-                        'name': character.name,
-                        'appearance': character.appearance,
-                        'biography': character.biography
-                    }
+            for character in character_result.characters:
+                character_info = {
+                    'name': character.name,
+                    'appearance': character.appearance,
+                    'biography': character.biography
+                }
 
-                    # Create and save the character for the current story
-                    character_to_save = Character(
-                        story=story_instance,
-                        name=character_info['name'],
-                        appearance=character_info['appearance'],
-                        biography=character_info['biography']
-                    )
-                    character_to_save.save()
+                # Create and save the character for the current story
+                character_to_save = Character(
+                    story=story,
+                    name=character_info['name'],
+                    appearance=character_info['appearance'],
+                    biography=character_info['biography']
+                )
+                character_to_save.save()
             return Response({
                 'step': 4,
                 'character_result': character_result,
@@ -490,6 +489,20 @@ class StoryGenerationView(APIView):
                 questions_and_answers=interview_questions, characters=character_result, genre=genre
             )
             stories = story_gen.generate_stories()
+            # save the title and content and position to the database
+            storyid = Story.objects.get(id=story_id)
+            for index, story in enumerate(stories):
+                chapters = outline_result[0][1]  # Get the list of chapters
+                # Avoid reusing the name `chapter`
+                for i, chapter_data in enumerate(chapters):
+                    if i != index:
+                        continue
+                    title = chapter_data[1][1]
+                content = story
+                position = index + 1
+                new_chapter = Chapter(title=title, content=content,  # Use a new variable name
+                                      story=storyid, position=position)
+                new_chapter.save()
             return Response({'step': 5, 'stories': stories})
 
         # elif step == 5:
