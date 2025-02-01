@@ -149,7 +149,7 @@ LANGCHAIN_PROJECT="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 5. **View the created story**
 
-   ![View Story](img/image_5.png)
+   ![View Story Detail](img/image_5.png)
 
 6. **Generate Image for the story**
 
@@ -158,24 +158,30 @@ LANGCHAIN_PROJECT="xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 7. **Image generated**
 
    ![Image Generated](img/image_7.png)
+   
+8. **Enter story prompt**
 
-8. **View the story details**
+   ![Story Prompt](img/image_8.png)
 
-   ![Story Details](img/image_8.png)
-
-9. **Create story chapter**
+9. **Answer Interview Question**
 
    ![Answer Interview Question](img/image_9.png)
 
+10. **Generate Story Outline**
+
    ![Generate Story Outline](img/image_10.png)
+
+11. **Generate Character**
 
    ![Generate Character](img/image_11.png)
 
-   ![Character Generated](img/image_12.png)
+12. **Generate Character Image**
 
-   ![Generate Story Chapter](img/image_13.png)
+   ![Geneate Character Image](img/image_12.png)
 
-10. **View the story chapter**
+13. **Generate the story chapter**
+
+    ![Generate Story Chapter](img/image_13.png)
 
     ![Story Chapter 1](img/image_14.png)
 
